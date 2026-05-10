@@ -4,7 +4,7 @@ import sqlite3  # библиотека для работы с SQLite
 
 from pathlib import Path  # для сборки путя к файлу базы
 
-BASE_DIR = Path(__file__).resolve().parent
+BASE_DIR = Path(__file__).resolve().parent  # # путь к папке проекта
 DB_PATH = BASE_DIR / "data" / "bot.db"  # путь к базе данных
 
 def init_db():  # функция для создания базы и таблицы
@@ -18,4 +18,12 @@ def init_db():  # функция для создания базы и табли�
                 first_name TEXT
             )
         """)
+        conn.commit()
+
+def add_user(telegram_id, username, first_name):  # сохраняет пользователя в базу
+    with sqlite3.connect(DB_PATH) as conn:
+        cursor = conn.cursor()  # объект, через который мы отправляем SQL-команды в базу
+        cursor.execute("""
+            INSERT OR IGNORE INTO users (telegram_id, username, first_name)
+            VALUES (?, ?, ?)""", (telegram_id, username, first_name))
         conn.commit()
