@@ -4,6 +4,8 @@ from database import init_db
 
 import handlers.start
 
+import handlers.help
+
 if __name__ == '__main__':  # Точка входа в программу
     print('Бот запущен!')
     init_db()
